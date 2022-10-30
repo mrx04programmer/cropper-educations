@@ -44,3 +44,5 @@ El paquete de red es enviado al corta fuegos del router y de allí se verifica s
         El porcentaje de escandalo generado por envenenamiento es del 75% (esto teniendo en cuenta que existen varias herramientas que utilizan diferentes formas para un mismo ataque) y un ataque sin envenenamiento es colado en la red y es detectado en un 15%.</p>
     <div>
 </div>
+
+<img src="https://img.shields.io/badge/tested%20in-arch%20linux-t?style=for-the-badge&color=blue&logoColor=darkgreen&labelColor=black">
