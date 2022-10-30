@@ -26,12 +26,14 @@ class MITM():
             print(f" {R}[-] {W} RHOST & RPORT no encontrados")
         else:
             try:
+                e = '\n'
+                ent = e.encode()
                 ''' hostname = socket.gethostbyname(rhost) '''
                 print(f"{G}[INFO] {W} Conectado con {rhost}:{rport}")
                 s.connect((rhost, rport))
                 message = input(f"{R} --> {W}") 
                 while message.lower().strip() != 'bye':
-                    s.send(message.encode())
+                    s.send(message.encode()+ent)
                     data = s.recv(1024).decode()
                     print('Datos recibidos:\n '+data)
                     message = input(f"{R} --> {W}") 
